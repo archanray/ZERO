@@ -18,7 +18,7 @@ Ways to install `ouimeaux`:
 ## Files of grave importance
 1. `fuelmix_parser.py`: Run this to collect the breakdown of energy sources per hour.
 2. `erate_parser.py`: Run this to collect the per hour variable cost of electricity consumption for one region (here `western mass`).
-3. `GUI.py`: Run this to collect data from the users.
+3. `GUI.py`: Run this as `python3 GUI.py` to collect data from the users.
 4. `optimizer.py`: Run this to get the policies you'd need to run. You should run this as a `cron` job in your Raspberry Pi. 
 5. `zero_jupyter.ipynb`: This notebook gives a step-by-step information of `optimizer`'s code.
 6. `report.pdf`: This is the report detailing the work done in the project. Please check the results and discussion section.
