@@ -19,3 +19,4 @@ Ways to install `ouimeaux`:
 1. `GUI.py`: Run this to collect data from the users.
 2. `optimizer.py`: Run this to get the policies you'd need to run. You should run this as a `cron` job in your Raspberry Pi. 
 3. `zero_jupyter.ipynb`: This notebook gives a step-by-step information of `optimizer`'s code.
+4. `report.pdf`: This is the report detailing the work done in the project. Please check the results and discussion section.
