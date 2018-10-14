@@ -161,7 +161,7 @@ class appliance:
 		_operating_duration = self.operating_duration
 		_interrupt = self.interruptable
 		
-		_ids_for_usage_based_on_window = np.nonzero(usage_window)
+		_ids_for_usage_based_on_window = np.nonzero(_usage_window)
 		
 		# choose according to the case that if the service can be converted
 		_usage_flaggers = np.zeros((len(_usage_window)))
@@ -201,10 +201,11 @@ class appliance:
 # Create some appliances (switch_id, differablility, interruptable, usage_window, operating_duration, electricity_consumption)
 appliances = {}
 
-usage_window = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
+usage_window = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+usage_window1 = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
 
-appliances['Heater'] = ('3', 1, True, usage_window, 5, 'high')
-#appliances['AC'] = ('2', 0, False, usage_window, 4, 'high')
+appliances['Heater'] =  ('1', 1, True, usage_window, 5, 'high') 
+appliances['AC'] = ('2', 1, True, usage_window1, 8, 'high')
 #appliances['EV'] = ('3', 1, True, usage_window, 8, 'high')
 
 first_run_init('new_england', appliances, 'both')

@@ -13,18 +13,18 @@ text_box21 = text_box22 = text_box23 = text_box24 = text_box25 = None
 modeint = None
 
 def fetch(entries):
+	global user_filename
 	if modeint.get() == 1:
 		for i in range(0,6):
-			print entries[i][1].get()
-			if entries[i][1].get() == '':
+			if entries[i].get() == '':
 				print 'Can\'t have a blank field'
 				return
 			if i == 0:
-				user_filename += entries[i][1].get()
+				user_filename += entries[i].get()
 			elif i == 5:
-				user_filename += entries[i][1].get()
+				user_filename += entries[i].get()
 			else:
-				user_filename += entries[i][1].get()[0:2]
+				user_filename += entries[i].get()[0:2]
 		print user_filename+'.npy'
 
 	if modeint.get() == 2:
@@ -107,7 +107,7 @@ def enter_user_data():
 	lab16 = Label(row16, width=15, text=user_fields[5], anchor='w')
 	lab16.pack(side=LEFT)
 
-	ent = [row11, row12, row13, row14, row15, row16]
+	ent = [text_box11, text_box12, text_box13, text_box14, text_box15, text_box16]
 	b3 = Button(root, text='Enter info',
 		  command=(lambda e=ent: fetch(e)))
 	b3.pack()
