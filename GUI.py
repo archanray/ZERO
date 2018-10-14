@@ -20,6 +20,83 @@ user_data = None
 
 modeint = None
 
+def close_all():
+	global row11, text_box11, lab11
+	global row12, text_box12, lab12
+	global row13, text_box13, lab13
+	global row14, text_box14, lab14
+	global row15, text_box15, lab15
+	global row16, text_box16, lab16
+
+	global row21, text_box21, lab21
+	global row22, text_box22, lab22
+	global row23, text_box23, lab23
+	global row24, text_box24, lab24
+	global row25, text_box25, lab25
+	global row26, text_box26, lab26
+
+	if row11 != None:
+		row11.destroy()
+		text_box11.destroy()
+		lab11.destroy()
+
+		row12.destroy()
+		text_box12.destroy()
+		lab12.destroy()
+
+		row13.destroy()
+		text_box13.destroy()
+		lab13.destroy()
+
+		row14.destroy()
+		text_box14.destroy()
+		lab14.destroy()
+
+		row15.destroy()
+		text_box15.destroy()
+		lab15.destroy()
+
+		row16.destroy()
+		text_box16.destroy()
+		lab16.destroy()
+
+	if row21 != None:
+
+		row21.destroy()
+		text_box21.destroy()
+		lab21.destroy()
+
+		row22.destroy()
+		text_box22.destroy()
+		lab22.destroy()
+
+		row23.destroy()
+		text_box23.destroy()
+		lab23.destroy()
+
+		row24.destroy()
+		text_box24.destroy()
+		lab24.destroy()
+
+		row25.destroy()
+		text_box25.destroy()
+		lab25.destroy()
+
+		row26.destroy()
+		text_box26.destroy()
+		lab26.destroy()
+
+	if b3 != None:
+		b3.destroy()
+
+	text_box11 = text_box12 = text_box13 = text_box14 = text_box15 = text_box16 = None
+	row11 = row12 = row13 = row14 = row15 = row16 = None
+	lab11 = lab12 = lab13 = lab14 = lab15 = lab16 = None
+
+	text_box21 = text_box22 = text_box23 = text_box24 = text_box25 = text_box26 = None
+	row21 = row22 = row23 = row24 = row25 = row26 = None
+	lab21 = lab22 = lab23 = lab24 = lab25 = lab26 = None
+
 def fetch(entries):
 	global modeint
 	global b3
@@ -126,7 +203,7 @@ def fetch(entries):
 	return
 
 def enter_user_data():
-
+	close_all()
 	global user_fields
 	global row11, text_box11, lab11
 	global row12, text_box12, lab12
@@ -187,6 +264,7 @@ def enter_user_data():
 	pass
 
 def enter_appl_data():
+	close_all()
 	global device_fields
 	global row21, text_box21, lab21
 	global row22, text_box22, lab22
@@ -247,38 +325,15 @@ def enter_appl_data():
 	pass
 
 def edit_appl_data():
-	global user_filename
-	global user_data
+	close_all()
 
-	flag = 1
-	if os.path.exists(user_filename):
-		user_data = np.load(user_filename).item()
-	
-		while(flag == 1):
-	
-			OPTIONS = user_data.keys()
-
-			variable = StringVar(root)
-			variable.set(OPTIONS[0])
-			w = OptionMenu(root, variable, *OPTIONS)
-			w.pack()
-
-			def ok():
-				print ("value is:" + variable.get())
-				button.destroy()
-				w.destroy()
-				flag = 0
-
-		button = Button(master, text="OK", command=ok)
-		button.pack()
-
-
-	global user_fields
+	global device_fields
 	global row21, text_box21, lab21
 	global row22, text_box22, lab22
 	global row23, text_box23, lab23
 	global row24, text_box24, lab24
 	global row25, text_box25, lab25
+	global row26, text_box26, lab26
 
 	global b3
 
@@ -287,36 +342,43 @@ def edit_appl_data():
 	text_box21 = Entry(row21)
 	row21.pack(side=TOP, fill=X, padx=5, pady=5)
 	text_box21.pack(side = RIGHT, expand=YES, fill=X)
-	lab21 = Label(row21, width=15, text=user_fields[0], anchor='w')
+	lab21 = Label(row21, width=15, text=device_fields[0], anchor='w')
 	lab21.pack(side=LEFT)
 
 	row22 = Frame(root)
 	text_box22 = Entry(row22)
 	row22.pack(side=TOP, fill=X, padx=5, pady=5)
 	text_box22.pack(side = RIGHT, expand=YES, fill=X)
-	lab22 = Label(row22, width=15, text=user_fields[1], anchor='w')
+	lab22 = Label(row22, width=15, text=device_fields[1], anchor='w')
 	lab22.pack(side=LEFT)
 
 	row23 = Frame(root)
 	text_box23 = Entry(row23)
 	row23.pack(side=TOP, fill=X, padx=5, pady=5)
 	text_box23.pack(side = RIGHT, expand=YES, fill=X)
-	lab23 = Label(row23, width=15, text=user_fields[2], anchor='w')
+	lab23 = Label(row23, width=15, text=device_fields[2], anchor='w')
 	lab23.pack(side=LEFT)
 
 	row24 = Frame(root)
 	text_box24 = Entry(row24)
 	row24.pack(side=TOP, fill=X, padx=5, pady=5)
 	text_box24.pack(side = RIGHT, expand=YES, fill=X)
-	lab24 = Label(row24, width=15, text=user_fields[3], anchor='w')
+	lab24 = Label(row24, width=15, text=device_fields[3], anchor='w')
 	lab24.pack(side=LEFT)
 
 	row25 = Frame(root)
 	text_box25 = Entry(row25)
 	row25.pack(side=TOP, fill=X, padx=5, pady=5)
 	text_box25.pack(side = RIGHT, expand=YES, fill=X)
-	lab25 = Label(row25, width=15, text=user_fields[4], anchor='w')
+	lab25 = Label(row25, width=15, text=device_fields[4], anchor='w')
 	lab25.pack(side=LEFT)
+
+	row26 = Frame(root)
+	text_box26 = Entry(row26)
+	row26.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box26.pack(side = RIGHT, expand=YES, fill=X)
+	lab26 = Label(row26, width=15, text=device_fields[5], anchor='w')
+	lab26.pack(side=LEFT)
 
 	ent = [text_box21, text_box22, text_box23, text_box24, text_box25, text_box26]
 	b3 = Button(root, text='Enter info',
@@ -361,4 +423,6 @@ if __name__ == '__main__':
 	b1 = frame.button1 = Button(root, text='Quit', command=root.quit)
 	b1.pack(padx=5, pady=5)
 	frame.pack(fill=BOTH,expand=1)
+
+	frame.focus_force()
 	root.mainloop()
