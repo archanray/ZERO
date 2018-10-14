@@ -1,6 +1,10 @@
-import numpy as np
+import glob
 import math
+import time
 
+import numpy as np
+
+import wemo_access
 
 location, priority, appliances, _priority_list, appliance_objects = None, None, None, None, None
 #max_val = None
@@ -198,19 +202,68 @@ class appliance:
 		return _usage_flaggers
 
 
+def parse_user_input(input_data, key):
+  # Load input
+	time_slots = input_data[key]['Time slots']
+	time_slots = time_slots.split(",")
+	usage_window = np.zeros(24)
+	for slot in time_slots:
+		time_range = slot.split("-")
+		if len(time_range) == 1:
+			usage_window[int(time_range[0])] = 1
+		else:
+			low, high = int(time_range[0]), int(time_range[1])
+		for i in range(low, high+1):
+			usage_window[i] = 1
+
+  # Weekdays
+	days_window = np.zeros(7)
+	day_slots = input_data[key]['Day']
+	day_slots = day_slots.split(",")
+	for slot in day_slots:
+		day_range = slot.split("-")
+		if len(day_range) == 1:
+			wk_day = time.strptime(day_range[0][0:3], '%a').tm_wday
+			days_window[wk_day] = 1
+		else:
+			low, high = time.strptime(day_range[0][0:3], '%a').tm_wday, time.strptime(day_range[1][0:3], '%a').tm_wday
+		for i in range(low, high+1):
+			days_window[i] = 1
+
+  	# Duration
+	duration = int(input_data[key]['Duration'])
+
+	# Interruptible
+	interupt = (input_data[key]['Interruptable'] == 'Yes')
+
+	# Priority
+	priority = input_data[key]['Priority']
+	tup = ('0', interupt, True, usage_window, duration, 'high') 
+	return key, tup, days_window, priority
+
 # Create some appliances (switch_id, differablility, interruptable, usage_window, operating_duration, electricity_consumption)
 appliances = {}
 
-usage_window = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-usage_window1 = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
+input_data = glob.glob("./input_data/*.npy")
+input_data = np.load(input_data[0]).item()
+device_keys = list(input_data.keys())
+mode = "both"
 
-appliances['Heater'] =  ('1', 1, True, usage_window, 5, 'high') 
-appliances['AC'] = ('2', 1, True, usage_window1, 8, 'high')
+for key in device_keys:
+	device, tup, days_window, mode = parse_user_input(input_data, key)
+	appliances[key] = tup
+
+print (appliances)
+# appliances['Heater'] =  ('1', 1, True, usage_window, 5, 'high') 
+# appliances['AC'] = ('2', 1, True, usage_window1, 8, 'high')
 #appliances['EV'] = ('3', 1, True, usage_window, 8, 'high')
 
-first_run_init('new_england', appliances, 'both')
+first_run_init('new_england', appliances, '_electricity_rate')
 policies = daily_policy_update()
 
 for name in policies.keys():
-	print ('Appliance:', name, 'On time(s): ', policies[name])
-	print np.nonzero(policies[name])
+	# print ('Appliance:', name, 'On time(s): ', policies[name])
+	print (np.nonzero(policies[name]))
+
+scheduler = wemo_access.wemo_accessor()
+scheduler.schedule_policies(policies)

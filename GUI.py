@@ -1,4 +1,9 @@
-from Tkinter import *
+try:
+    # for Python2
+    from Tkinter import *   ## notice capitalized T in Tkinter 
+except ImportError:
+    # for Python3
+	from tkinter import *
 import numpy as np
 import os
 
@@ -114,7 +119,7 @@ def fetch(entries):
 		
 		for i in range(0,6):
 			if entries[i].get() == '':
-				print 'Can\'t have a blank field'
+				print ('Can\'t have a blank field')
 				return
 			if i == 0:
 				user_filename += entries[i].get()
@@ -122,8 +127,8 @@ def fetch(entries):
 				user_filename += entries[i].get()
 			else:
 				user_filename += entries[i].get()[0:2]
-		print user_filename+'.npy'
-
+		print ("./input_data/"+user_filename+'.npy')
+		user_filename = "./input_data/"+user_filename+'.npy'
 		if os.path.exists(user_filename):
 			user_data = np.load(user_filename).item()
 		else:
