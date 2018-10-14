@@ -201,15 +201,15 @@ class appliance:
 # Create some appliances (switch_id, differablility, interruptable, usage_window, operating_duration, electricity_consumption)
 appliances = {}
 
-usage_window = np.ones((24))
+usage_window = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
 
-appliances['Heater'] = ('1', 1, True, usage_window, 8, 'high')
-appliances['AC'] = ('2', 0, False, usage_window, 4, 'high')
-appliances['EV'] = ('3', 1, True, usage_window, 8, 'high')
+appliances['Heater'] = ('3', 1, True, usage_window, 5, 'high')
+#appliances['AC'] = ('2', 0, False, usage_window, 4, 'high')
+#appliances['EV'] = ('3', 1, True, usage_window, 8, 'high')
 
 first_run_init('new_england', appliances, 'both')
 policies = daily_policy_update()
 
 for name in policies.keys():
-	#print ('Appliance:', name, 'On time(s): ', policies[name])
+	print ('Appliance:', name, 'On time(s): ', policies[name])
 	print np.nonzero(policies[name])
