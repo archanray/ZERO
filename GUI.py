@@ -1,20 +1,40 @@
 from Tkinter import *
+import numpy as np
+import os
 
 user_filename = ''
+
+b3 = None
 
 user_fields = ['House number', 'House address', 'Country', 'State', 'City', 'PIN']
 text_box11 = text_box12 = text_box13 = text_box14 = text_box15 = text_box16 = None
 row11 = row12 = row13 = row14 = row15 = row16 = None
 lab11 = lab12 = lab13 = lab14 = lab15 = lab16 = None
-device_fields = ['Name', 'Day', 'Time slots', 'Duration', 'Interruptable']
-text_box21 = text_box22 = text_box23 = text_box24 = text_box25 = None
 
+device_fields = ['Name', 'Day', 'Time slots', 'Duration', 'Interruptable', 'Priority']
+text_box21 = text_box22 = text_box23 = text_box24 = text_box25 = text_box26 = None
+row21 = row22 = row23 = row24 = row25 = row26 = None
+lab21 = lab22 = lab23 = lab24 = lab25 = lab26 = None
+
+user_data = None
 
 modeint = None
 
 def fetch(entries):
+	global modeint
+	global b3
+	global user_data
 	global user_filename
+
 	if modeint.get() == 1:
+		
+		global row11, text_box11, lab11
+		global row12, text_box12, lab12
+		global row13, text_box13, lab13
+		global row14, text_box14, lab14
+		global row15, text_box15, lab15
+		global row16, text_box16, lab16
+		
 		for i in range(0,6):
 			if entries[i].get() == '':
 				print 'Can\'t have a blank field'
@@ -27,44 +47,97 @@ def fetch(entries):
 				user_filename += entries[i].get()[0:2]
 		print user_filename+'.npy'
 
-	if modeint.get() == 2:
-		pass
+		if os.path.exists(user_filename):
+			user_data = np.load(user_filename).item()
+		else:
+			user_data = {}
 
-	if modeint.get() == 3:
+		row11.destroy()
+		text_box11.destroy()
+		lab11.destroy()
+
+		row12.destroy()
+		text_box12.destroy()
+		lab12.destroy()
+
+		row13.destroy()
+		text_box13.destroy()
+		lab13.destroy()
+
+		row14.destroy()
+		text_box14.destroy()
+		lab14.destroy()
+
+		row15.destroy()
+		text_box15.destroy()
+		lab15.destroy()
+
+		row16.destroy()
+		text_box16.destroy()
+		lab16.destroy()
+
+		b3.destroy()
+
+	if modeint.get() >= 2:
+		global row21, text_box21, lab21
+		global row22, text_box22, lab22
+		global row23, text_box23, lab23
+		global row24, text_box24, lab24
+		global row25, text_box25, lab25
+		global row26, text_box26, lab26
+		
+		'''
+		define append to the list
+		'''
+		user_data[entries[0].get()] = \
+		{'Day': entries[1].get(), 'Time slots': entries[2].get(), \
+		'Duration': entries[3].get(), 'Interruptable': entries[4].get(), \
+		'Priority': entries[5].get()}
+
+		np.save(user_filename, user_data)
+
+		row21.destroy()
+		text_box21.destroy()
+		lab21.destroy()
+
+		row22.destroy()
+		text_box22.destroy()
+		lab22.destroy()
+
+		row23.destroy()
+		text_box23.destroy()
+		lab23.destroy()
+
+		row24.destroy()
+		text_box24.destroy()
+		lab24.destroy()
+
+		row25.destroy()
+		text_box25.destroy()
+		lab25.destroy()
+
+		row26.destroy()
+		text_box26.destroy()
+		lab26.destroy()
+
+		b3.destroy()
 		pass
 
 	return
-'''
-def fetch(entries):
-	global device_list
-	filename = ''
-	for entry in entries:
-		user_info[entry[0]] = entry[1].get() 
-		if entry[0] == 'House number':
-			filename += entry[1].get()
-		elif entry[0] == 'PIN':
-			filename += entry[1].get()
-		else:
-			filename += entry[1].get()[0:2]
-	filename = filename+'.npy'
-	#device_list = np.load(filename)
-	return filename
-'''
-
-def makeform(root, fields):
-	entries = []
-	for field in fields:
-		row = Frame(root)
-		lab = Label(row, width=15, text=field, anchor='w')
-		ent = Entry(row)
-		row.pack(side=TOP, fill=X, padx=5, pady=5)
-		lab.pack(side=LEFT)
-		ent.pack(side=RIGHT, expand=YES, fill=X)
-		entries.append((field, ent))
-	return entries
 
 def enter_user_data():
+
 	global user_fields
+	global row11, text_box11, lab11
+	global row12, text_box12, lab12
+	global row13, text_box13, lab13
+	global row14, text_box14, lab14
+	global row15, text_box15, lab15
+	global row16, text_box16, lab16
+
+	global b3
+
+
 	row11 = Frame(root)
 	text_box11 = Entry(row11)
 	row11.pack(side=TOP, fill=X, padx=5, pady=5)
@@ -114,31 +187,142 @@ def enter_user_data():
 	pass
 
 def enter_appl_data():
+	global device_fields
+	global row21, text_box21, lab21
+	global row22, text_box22, lab22
+	global row23, text_box23, lab23
+	global row24, text_box24, lab24
+	global row25, text_box25, lab25
+	global row26, text_box26, lab26
 
-	# build new boxes
-	text_box21 = Entry(root)
-	text_box21.pack()
-	text_box22 = Entry(root)
-	text_box22.pack()
-	text_box23 = Entry(root)
-	text_box23.pack()
-	text_box24 = Entry(root)
-	text_box24.pack()
-	text_box25 = Entry(root)
-	text_box25.pack()
+	global b3
+
+
+	row21 = Frame(root)
+	text_box21 = Entry(row21)
+	row21.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box21.pack(side = RIGHT, expand=YES, fill=X)
+	lab21 = Label(row21, width=15, text=device_fields[0], anchor='w')
+	lab21.pack(side=LEFT)
+
+	row22 = Frame(root)
+	text_box22 = Entry(row22)
+	row22.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box22.pack(side = RIGHT, expand=YES, fill=X)
+	lab22 = Label(row22, width=15, text=device_fields[1], anchor='w')
+	lab22.pack(side=LEFT)
+
+	row23 = Frame(root)
+	text_box23 = Entry(row23)
+	row23.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box23.pack(side = RIGHT, expand=YES, fill=X)
+	lab23 = Label(row23, width=15, text=device_fields[2], anchor='w')
+	lab23.pack(side=LEFT)
+
+	row24 = Frame(root)
+	text_box24 = Entry(row24)
+	row24.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box24.pack(side = RIGHT, expand=YES, fill=X)
+	lab24 = Label(row24, width=15, text=device_fields[3], anchor='w')
+	lab24.pack(side=LEFT)
+
+	row25 = Frame(root)
+	text_box25 = Entry(row25)
+	row25.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box25.pack(side = RIGHT, expand=YES, fill=X)
+	lab25 = Label(row25, width=15, text=device_fields[4], anchor='w')
+	lab25.pack(side=LEFT)
+
+	row26 = Frame(root)
+	text_box26 = Entry(row26)
+	row26.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box26.pack(side = RIGHT, expand=YES, fill=X)
+	lab26 = Label(row26, width=15, text=device_fields[5], anchor='w')
+	lab26.pack(side=LEFT)
+
+	ent = [text_box21, text_box22, text_box23, text_box24, text_box25, text_box26]
+	b3 = Button(root, text='Enter info',
+		  command=(lambda e=ent: fetch(e)))
+	b3.pack()
 	pass
 
 def edit_appl_data():
-	text_box21 = Entry(root)
-	text_box21.pack()
-	text_box22 = Entry(root)
-	text_box22.pack()
-	text_box23 = Entry(root)
-	text_box23.pack()
-	text_box24 = Entry(root)
-	text_box24.pack()
-	text_box25 = Entry(root)
-	text_box25.pack()
+	global user_filename
+	global user_data
+
+	flag = 1
+	if os.path.exists(user_filename):
+		user_data = np.load(user_filename).item()
+	
+		while(flag == 1):
+	
+			OPTIONS = user_data.keys()
+
+			variable = StringVar(root)
+			variable.set(OPTIONS[0])
+			w = OptionMenu(root, variable, *OPTIONS)
+			w.pack()
+
+			def ok():
+				print ("value is:" + variable.get())
+				button.destroy()
+				w.destroy()
+				flag = 0
+
+		button = Button(master, text="OK", command=ok)
+		button.pack()
+
+
+	global user_fields
+	global row21, text_box21, lab21
+	global row22, text_box22, lab22
+	global row23, text_box23, lab23
+	global row24, text_box24, lab24
+	global row25, text_box25, lab25
+
+	global b3
+
+
+	row21 = Frame(root)
+	text_box21 = Entry(row21)
+	row21.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box21.pack(side = RIGHT, expand=YES, fill=X)
+	lab21 = Label(row21, width=15, text=user_fields[0], anchor='w')
+	lab21.pack(side=LEFT)
+
+	row22 = Frame(root)
+	text_box22 = Entry(row22)
+	row22.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box22.pack(side = RIGHT, expand=YES, fill=X)
+	lab22 = Label(row22, width=15, text=user_fields[1], anchor='w')
+	lab22.pack(side=LEFT)
+
+	row23 = Frame(root)
+	text_box23 = Entry(row23)
+	row23.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box23.pack(side = RIGHT, expand=YES, fill=X)
+	lab23 = Label(row23, width=15, text=user_fields[2], anchor='w')
+	lab23.pack(side=LEFT)
+
+	row24 = Frame(root)
+	text_box24 = Entry(row24)
+	row24.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box24.pack(side = RIGHT, expand=YES, fill=X)
+	lab24 = Label(row24, width=15, text=user_fields[3], anchor='w')
+	lab24.pack(side=LEFT)
+
+	row25 = Frame(root)
+	text_box25 = Entry(row25)
+	row25.pack(side=TOP, fill=X, padx=5, pady=5)
+	text_box25.pack(side = RIGHT, expand=YES, fill=X)
+	lab25 = Label(row25, width=15, text=user_fields[4], anchor='w')
+	lab25.pack(side=LEFT)
+
+	ent = [text_box21, text_box22, text_box23, text_box24, text_box25, text_box26]
+	b3 = Button(root, text='Enter info',
+		  command=(lambda e=ent: fetch(e)))
+	b3.pack()
+	pass
 	pass
 
 if __name__ == '__main__':
